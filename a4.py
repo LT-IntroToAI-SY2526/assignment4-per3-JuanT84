@@ -17,17 +17,39 @@ class TTTBoard:
                 f"{self.board[3]} {self.board[4]} {self.board[5]}\n"
                 f"{self.board[6]} {self.board[7]} {self.board[8]}")
     def make_move(self,player, pos):
-        if self.board[pos] == "*":
-            self.board[pos] = player
-        else:
-            print("Spot is taken!")
-            return self
-        
-    if 0 <= pos < 9 and self.board[pos] == "*":
+        if 0 <= pos < 9 and self.board[pos] == "*":
             self.board[pos] = player
             return True
         else:
+            print("Invalid move! Spot taken or out of range.")
             return False
+    def has_won(self, player):
+        win_positions = [
+            [0, 1, 2],  
+            [3, 4, 5], 
+            [6, 7, 8],  
+            [0, 3, 6], 
+            [1, 4, 7],  
+            [2, 5, 8], 
+            [0, 4, 8],  
+            [2, 4, 6]   
+        ]
+        for combo in win_positions:
+            if all(self.board[i] == player for i in combo):
+                return True
+        return False
+    def game_over(self):
+            if self.has_won('X'):
+                return "Player X has Won!"
+            elif self.has_won('O'):
+                return "Player O has Won!"
+            elif '*' not in self.board:
+                return "It's a tie!"
+            else: 
+                return "Game is still Going"
+    def clear(self):
+        self.board = ["*","*","*","*","*", "*", "*", "*", "*"]
+        
 b = TTTBoard()
 b.make_move("X", 4)
 print(b)
