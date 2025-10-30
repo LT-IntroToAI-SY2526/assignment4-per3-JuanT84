@@ -38,15 +38,8 @@ class TTTBoard:
             if all(self.board[i] == player for i in combo):
                 return True
         return False
-    def game_over(self):
-            if self.has_won('X'):
-                return "Player X has Won!"
-            elif self.has_won('O'):
-                return "Player O has Won!"
-            elif '*' not in self.board:
-                return "It's a tie!"
-            else: 
-                return "Game is still Going"
+    def game_over(self) -> bool:
+        return self.has_won('X') or self.has_won('O') or '*' not in self.board
     def clear(self):
         self.board = ["*","*","*","*","*", "*", "*", "*", "*"]
         
@@ -86,7 +79,7 @@ def play_tic_tac_toe() -> None:
             )
 
         if brd.make_move(players[turn], int(move)):
-            turn = not turn
+            turn = (turn + 1) % 2
 
     print(f"\nGame over!\n\n{brd}")
     if brd.has_won(players[0]):
@@ -130,4 +123,4 @@ if __name__ == "__main__":
     print("All tests passed!")
 
     # uncomment to play!
-    # play_tic_tac_toe()
+    play_tic_tac_toe()
